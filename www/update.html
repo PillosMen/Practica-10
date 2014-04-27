@@ -1,0 +1,37 @@
+<?
+ 
+//Invocamos el archivo de conexión
+
+require ("conex.php");
+
+//Estblecemos el query o consulta mysql y lo almacenamos en una variable denominada $result, hay que resaltar que utilizamos mysqli_query y como parámetro colocamos la cadena de conexion que obtenemos del archivo conexion.php
+$result = mysqli_query($enlace, "SELECT * FROM productos");
+
+//ahora vamos construyendo la tabla, la primera fila siendo mas preciso esta es posible construirla toda en pocas lineas, lo coloco así para una mejor comprensión
+echo "<table border='1' align='center'>";
+echo "<tr bgcolor='#CCCCCC'>";
+echo "<td><b>id</b></td>";
+echo "<td><b>clave</b></td>";
+echo "<td><b>nombre</b></td>";
+echo "<td><b>descripcion</b></td>";
+echo "<td><b>precio</b></td>";
+echo "</tr>";
+
+//Con la condicional while obtenemos los datos, mysqli_fetch_array() nos permite hacer esto, solo colocamos la variable que contiene esta con el nombre de la columna y nos arroja el dato, y como while es una condicional repetitiva y a la vez estamos construyendo la tabla, nos resultara una tabla con los datos ordenados según lo consultemos.
+while ($row = mysqli_fetch_array($result)){
+    echo "<tr>";
+    echo "<td>".$row[id]."</td>";
+    echo "<td>".$row[clave]."</td>";
+    echo "<td>".$row[nombre]."</td>";
+    echo "<td>".$row[descripcion]."</td>";
+    echo "<td>".$row[precio]."</td>";
+    echo "</tr>";
+// Cerramos el While
+}
+
+//Notemos que colocamos ". y ." para concatenar las variables php y HTML
+//Cerramos la tabla, es necesario hacerlo fuera del while, de los contrario solo mostraría la segunda fila dentro de la tabla el resto estaría desordenado.
+echo "</table>";
+// mysqli_close() es el evivalente a mysql_close() sirve para finalizar la conexión.
+mysqli_close($enlace);
+?>
